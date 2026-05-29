@@ -164,29 +164,32 @@ To provide maximum economic transparency, `df` features a built-in **AI Economy 
 
 Whenever you run the extraction pipeline, `df` automatically detects your active AI environment via environment variables (such as Gemini CLI, Claude Code, OpenAI Codex, or DeepSeek API) and performs a real-time financial audit showing the exact cost of the prompt before and after Design Factory optimization:
 
-*   **Intelligent Active Model Hashing & 2026 Rates:**
-    *   **Google Gemini 3.5 Flash** *(May 19, 2026)* — **$1.50** / 1M input tokens. (Active by default in Gemini CLI sessions).
-    *   **Anthropic Claude Sonnet 4.8 / 4.7** — **$3.00** / 1M input tokens. (Active in Claude Code sessions).
-    *   **OpenAI GPT-5.5** *(April 23, 2026)* — **$5.00** / 1M input tokens. (Active in OpenAI Codex/GPT sessions).
-    *   **DeepSeek V4 Pro** — **$0.14** / 1M input tokens. (Active in DeepSeek sessions).
+*   **Intelligent Active Model Hashing & Verified May 2026 Rates:**
+    *   **Google Gemini 3.5 Flash** — **$1.50** / 1M input, **$9.00** / 1M output. (Active by default in Gemini CLI sessions).
+    *   **Google Gemini 3.1 Pro (Preview)** — **$2.00** / 1M input, **$12.00** / 1M output.
+    *   **Anthropic Claude Sonnet 4.x** — **$3.00** / 1M input, **$15.00** / 1M output. (Active in Claude Code sessions).
+    *   **Anthropic Claude Opus 4.7-4.8** — **$5.00** / 1M input, **$25.00** / 1M output.
+    *   **OpenAI GPT-5.5** — **$5.00** / 1M input, **$30.00** / 1M output. (Active in OpenAI Codex/GPT sessions).
+    *   **DeepSeek V4 Pro** — **$0.435** / 1M input, **$0.87** / 1M output. (Active in DeepSeek sessions).
 
 #### Example Telemetry Output:
 
 ```text
   💸 ФИНАНСОВАЯ ЭКОНОМИЯ ДЛЯ ИИ-КАЛЬКУЛЯТОРА (ФОКУС НА ВВОД)
   ================================================================================
-  • Без оптимизации (Сырой контекст):       $0.10300  (Gemini 3.5 Flash)
-  • С оптимизацией Design Factory:         $0.00410  (Gemini 3.5 Flash)
+  • Без оптимизации (Сырой контекст):       $0.07725  (Gemini 3.5 Flash)
+  • С оптимизацией Design Factory:         $0.00310  (Gemini 3.5 Flash)
 
   Сравнительная стоимость одного прогона по моделям (ввод в USD):
   --------------------------------------------------------------------------------
   МОДЕЛЬ                БЕЗ ОПТИМИЗАЦИИ    С DESIGN FACTORY   СЭКОНОМЛЕНО
   --------------------------------------------------------------------------------
   GPT-5.5               $0.25750           $0.01030           $0.24720 (96.0%)
-  Claude Sonnet 4.8     $0.15450           $0.00620           $0.14830 (96.0%)
-  Claude Sonnet 4.7     $0.15450           $0.00620           $0.14830 (96.0%)
-* Gemini 3.5 Flash [АКТИВ] $0.10300           $0.00410           $0.09890 (96.0%)  
-  DeepSeek V4 Pro       $0.00720           $0.00030           $0.00690 (96.0%)
+  Claude Opus 4.7-4.8   $0.25750           $0.01030           $0.24720 (96.0%)
+  Claude Sonnet 4.x     $0.15450           $0.00620           $0.14830 (96.0%)
+  Gemini 3.1 Pro (Prev) $0.10300           $0.00410           $0.09890 (96.0%)
+* Gemini 3.5 Flash [АКТИВ] $0.07725           $0.00310           $0.07415 (96.0%)  
+  DeepSeek V4 Pro       $0.02240           $0.00090           $0.02150 (96.0%)
   --------------------------------------------------------------------------------
 ```
 
