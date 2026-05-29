@@ -48,8 +48,11 @@ design-factory/
 
 Design Factory is standard-compliant and works out-of-the-box in all major development environments:
 
-### 1. Google Antigravity (Local Orchestrator)
-Fully compatible with the Antigravity agentic runtime. The agent natively runs CLI commands (`./df`), spawns design sub-agents, and connects local MCP services.
+### 1. Local Autonomous Orchestrators (Antigravity, Aider, Roo Cline, etc.)
+Highly compatible with any modern local autonomous coding agent and command-line workspace assistant:
+-   **Aider:** Natively reads project rules (instructions.md) and automates pipeline execution directly in your git repository.
+-   **Roo Cline / Cline (VS Code):** Autonomously triggers step-by-step design pipelines by connecting directly to the built-in MCP server.
+-   **Google Antigravity:** Natively runs complex multi-agent orchestrator loops, spawns design sub-agents, and runs background tasks.
 
 ### 2. Claude Code CLI (Slash Commands)
 The installation script registers the custom skills into your global Claude Code environment (`~/.claude/skills/`). You get three fast slash commands inside the terminal:
