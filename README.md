@@ -45,8 +45,7 @@ design-factory/
 ├── console/                      # Design Factory Web Console (Local Web App)
 │   ├── server.js                 # Pure Node.js backend HTTP server
 │   └── public/                   # Sleek Dark Mode glassmorphic web dashboard
-│
-└── raw/                          # Local temporary staging/backup folder (GITIGNORED)
+
 ```
 
 ---
