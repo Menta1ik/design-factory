@@ -95,7 +95,7 @@ function getPathSize(targetPath) {
   return 0;
 }
 
-// Token & Context Efficiency Optimizer Calculator
+// Token & Context Efficiency Optimizer Calculator & Financial Telemetry
 function printTokenStats(slug, rawBytes, processedBytes) {
   if (isSilent) {
     // Force output of token stats even in silent mode, as this is critical economic telemetry
@@ -122,8 +122,65 @@ function printTokenStats(slug, rawBytes, processedBytes) {
   console.log(`  • Очищенный объем дизайн-токенов (JSON/CSS):  ${colors.green}${formatSize(processedBytes)}${colors.reset} (~${processedTokens.toLocaleString()} токенов)`);
   console.log(`  • Коэффициент сжатия контекста для ИИ:      ${colors.bright}${colors.green}${compressionRatio}%${colors.reset}`);
   console.log(`  • Сэкономлено входных токенов ИИ-контекста:   ${colors.bright}${colors.cyan}~${savedTokens.toLocaleString()} токенов${colors.reset}`);
-  console.log(`${colors.cyan}--------------------------------------------------------------------------------${colors.reset}`);
-  console.log(`  [💡 Tip] Режим тишины сэкономил ~${Math.round(rawTokens * 0.95).toLocaleString()} токенов на выводе терминала.`);
+
+  // 2026 Model Pricing per 1M Input Tokens
+  const models = [
+    { name: 'GPT-5.5', price: 5.00 },
+    { name: 'Claude Sonnet 4.8', price: 3.00 },
+    { name: 'Claude Sonnet 4.7', price: 3.00 },
+    { name: 'Gemini 3.5 Flash', price: 1.50 },
+    { name: 'DeepSeek V4 Pro', price: 0.14 }
+  ];
+
+  // Auto-detect active model
+  let activeModel = 'Gemini 3.5 Flash'; // Default for Gemini CLI users
+  if (process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || process.env.GEMINI_CLI) {
+    activeModel = 'Gemini 3.5 Flash';
+  } else if (process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_CODE || process.env.AM_I_IN_A_CLAUDE_CODE_SESSION) {
+    activeModel = 'Claude Sonnet 4.8';
+  } else if (process.env.OPENAI_API_KEY) {
+    activeModel = 'GPT-5.5';
+  } else if (process.env.DEEPSEEK_API_KEY) {
+    activeModel = 'DeepSeek V4 Pro';
+  }
+
+  const activeInfo = models.find(m => m.name === activeModel) || models[3];
+  const rawCostActive = ((rawTokens / 1000000) * activeInfo.price).toFixed(5);
+  const procCostActive = ((processedTokens / 1000000) * activeInfo.price).toFixed(5);
+
+  console.log(`${colors.cyan}================================================================================`);
+  console.log(` 💸 ФИНАНСОВАЯ ЭКОНОМИЯ ДЛЯ ИИ-КАЛЬКУЛЯТОРА (ФОКУС НА ВВОД)`);
+  console.log(`================================================================================${colors.reset}`);
+  console.log(`  • Без оптимизации (Сырой контекст):       ${colors.yellow}$${rawCostActive}${colors.reset}  (${activeInfo.name})`);
+  console.log(`  • С оптимизацией Design Factory:         ${colors.green}$${procCostActive}${colors.reset}  (${activeInfo.name})`);
+  console.log(`\n  Сравнительная стоимость одного прогона по моделям (ввод в USD):`);
+  console.log(`  --------------------------------------------------------------------------------`);
+  
+  const pad = (str, len) => str.padEnd(len).slice(0, len);
+  console.log(`  ${colors.bright}${pad('МОДЕЛЬ', 22)} ${pad('БЕЗ ОПТИМИЗАЦИИ', 18)} ${pad('С DESIGN FACTORY', 18)} СЭКОНОМЛЕНО${colors.reset}`);
+  console.log(`  --------------------------------------------------------------------------------`);
+
+  models.forEach(m => {
+    const rawCost = ((rawTokens / 1000000) * m.price).toFixed(5);
+    const procCost = ((processedTokens / 1000000) * m.price).toFixed(5);
+    const savedCost = (parseFloat(rawCost) - parseFloat(procCost)).toFixed(5);
+    
+    let modelNameLabel = m.name;
+    let lineColors = '';
+    
+    if (m.name === activeModel) {
+      modelNameLabel = `* ${m.name} [АКТИВ]`;
+      lineColors = colors.green + colors.bright;
+    } else {
+      modelNameLabel = `  ${m.name}`;
+      lineColors = colors.reset;
+    }
+
+    console.log(`  ${lineColors}${pad(modelNameLabel, 22)} $${pad(rawCost, 17)} $${pad(procCost, 17)} $${savedCost} (${compressionRatio.slice(0, 4)}%)${colors.reset}`);
+  });
+
+  console.log(`  --------------------------------------------------------------------------------`);
+  console.log(`  [💡 Tip] Режим тишины дополнительно сэкономил ~${Math.round(rawTokens * 0.95).toLocaleString()} токенов на выводе терминала.`);
   console.log(`${colors.bright}${colors.cyan}================================================================================${colors.reset}\n`);
 }
 
