@@ -247,26 +247,829 @@ function handleMakeDs(brand) {
   const dsDir = path.join(process.cwd(), `${brand}-design-system`);
   log(colors.blue, `[*] Initializing Design System folder: ${brand}-design-system`);
 
+  // Create full folder structure
   fs.mkdirSync(dsDir, { recursive: true });
   fs.mkdirSync(path.join(dsDir, 'preview'), { recursive: true });
   fs.mkdirSync(path.join(dsDir, 'ui_kits'), { recursive: true });
+  fs.mkdirSync(path.join(dsDir, 'ui_kits', 'landing'), { recursive: true });
   fs.mkdirSync(path.join(dsDir, 'assets'), { recursive: true });
   fs.mkdirSync(path.join(dsDir, 'fonts'), { recursive: true });
   fs.mkdirSync(path.join(dsDir, 'slides'), { recursive: true });
 
-  // Create initial cards.json skeleton
+  const brandName = brand.charAt(0).toUpperCase() + brand.slice(1);
+
+  // 1. colors_and_type.css
+  const cssContent = `/* ============================================================
+   ${brandName} Design System — core tokens
+   Aesthetic: Premium Dark-first interface.
+   Generated via Design Factory CLI.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── COLOR — Brand ── */
+  --${brand}-primary: #0A0A0A;
+  --${brand}-primary-hover: #1F1F1F;
+  --${brand}-primary-pressed: #000000;
+
+  /* ── COLOR — Accents ── */
+  --${brand}-accent: #002FA7;
+  --${brand}-accent-hover: #00258C;
+  --${brand}-cyan: #00F0FF;
+  --${brand}-yellow: #FFD600;
+  --${brand}-red: #FF3B30;
+
+  /* ── COLOR — Neutrals ── */
+  --${brand}-white: #ffffff;
+  --${brand}-bg: #090E17;
+  --${brand}-bg-subdued: #121824;
+  --${brand}-bg-quiet: #1B2332;
+  --${brand}-border: #1E293B;
+  --${brand}-border-quiet: #0F172A;
+  --${brand}-text: #F8FAFC;
+  --${brand}-text-body: #E2E8F0;
+  --${brand}-text-subdued: #94A3B8;
+  --${brand}-text-quiet: #64748B;
+
+  /* ── TYPE ── */
+  --${brand}-font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --${brand}-font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --${brand}-font-mono: 'JetBrains Mono', monospace;
+
+  --${brand}-w-light: 300;
+  --${brand}-w-regular: 400;
+  --${brand}-w-medium: 500;
+  --${brand}-w-semibold: 600;
+  --${brand}-w-bold: 700;
+
+  /* Type scale (px) */
+  --${brand}-size-hero-xxl: 56px;
+  --${brand}-size-hero-xl: 48px;
+  --${brand}-size-h1: 32px;
+  --${brand}-size-h2: 24px;
+  --${brand}-size-h3: 20px;
+  --${brand}-size-body: 16px;
+  --${brand}-size-body-sm: 14px;
+  --${brand}-size-caption: 12px;
+
+  --${brand}-lh-tight: 1.1;
+  --${brand}-lh-heading: 1.25;
+  --${brand}-lh-body: 1.5;
+
+  --${brand}-track-display: -0.02em;
+  --${brand}-track-body: 0em;
+
+  /* ── SPACING ── */
+  --${brand}-space-1: 4px;
+  --${brand}-space-2: 8px;
+  --${brand}-space-3: 12px;
+  --${brand}-space-4: 16px;
+  --${brand}-space-6: 24px;
+  --${brand}-space-8: 32px;
+  --${brand}-space-12: 48px;
+  --${brand}-space-16: 64px;
+  --${brand}-content-max: 1200px;
+
+  /* ── RADII ── */
+  --${brand}-radius-xs: 4px;
+  --${brand}-radius-sm: 8px;
+  --${brand}-radius-md: 12px;
+  --${brand}-radius-lg: 16px;
+  --${brand}-radius-pill: 9999px;
+
+  /* ── SHADOWS ── */
+  --${brand}-shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  --${brand}-shadow-glow: 0px 0px 15px rgba(0, 240, 255, 0.4);
+
+  /* ── MOTION ── */
+  --${brand}-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --${brand}-duration: 250ms;
+}
+
+/* ============================================================
+   Semantic classes (drop-in for HTML mocks)
+   ============================================================ */
+
+.${brand}-display-xxl {
+  font-family: var(--${brand}-font-display);
+  font-size: var(--${brand}-size-hero-xxl);
+  font-weight: var(--${brand}-w-light);
+  letter-spacing: var(--${brand}-track-display);
+  line-height: var(--${brand}-lh-tight);
+}
+
+.${brand}-h1 {
+  font-family: var(--${brand}-font-display);
+  font-size: var(--${brand}-size-h1);
+  font-weight: var(--${brand}-w-bold);
+  letter-spacing: var(--${brand}-track-display);
+  line-height: var(--${brand}-lh-heading);
+}
+
+.${brand}-h2 {
+  font-family: var(--${brand}-font-display);
+  font-size: var(--${brand}-size-h2);
+  font-weight: var(--${brand}-w-semibold);
+  letter-spacing: var(--${brand}-track-display);
+  line-height: var(--${brand}-lh-heading);
+}
+
+.${brand}-body {
+  font-family: var(--${brand}-font-body);
+  font-size: var(--${brand}-size-body);
+  font-weight: var(--${brand}-w-regular);
+  line-height: var(--${brand}-lh-body);
+}
+
+.${brand}-body-sm {
+  font-family: var(--${brand}-font-body);
+  font-size: var(--${brand}-size-body-sm);
+  font-weight: var(--${brand}-w-regular);
+  line-height: var(--${brand}-lh-body);
+}
+
+.${brand}-caption {
+  font-family: var(--${brand}-font-body);
+  font-size: var(--${brand}-size-caption);
+  font-weight: var(--${brand}-w-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--${brand}-text-quiet);
+}
+`;
+  fs.writeFileSync(path.join(dsDir, 'colors_and_type.css'), cssContent);
+
+  // 2. cards.json manifest
+  const cards = [
+    {
+      "file": "preview/colors-accents.html",
+      "title": "Colors · Accents",
+      "subtitle": "Cyan + yellow + neutrals",
+      "group": "Colors",
+      "viewport": { "width": 700, "height": 220 }
+    },
+    {
+      "file": "preview/type-display.html",
+      "title": "Type · Display",
+      "subtitle": "Plus Jakarta Sans H1-H3 sizes",
+      "group": "Type",
+      "viewport": { "width": 700, "height": 380 }
+    },
+    {
+      "file": "preview/spacing.html",
+      "title": "Spacing · Grid",
+      "subtitle": "Radii + margins visual guide",
+      "group": "Spacing",
+      "viewport": { "width": 700, "height": 260 }
+    },
+    {
+      "file": "ui_kits/landing/index.html",
+      "title": "UI Kit · Landing Page",
+      "subtitle": "Interactive hi-fi React landing page",
+      "group": "UI Kits",
+      "viewport": { "width": 1280, "height": 680 }
+    }
+  ];
+
   const cardsJson = {
-    brandName: brand.charAt(0).toUpperCase() + brand.slice(1),
+    brandName: brandName,
     generatedAt: new Date().toISOString(),
-    cards: []
+    cards: cards
   };
   fs.writeFileSync(path.join(dsDir, 'cards.json'), JSON.stringify(cardsJson, null, 2));
 
-  // Initialize a placeholder colors_and_type.css
-  const placeholderCss = `/**\n * Design System Tokens: ${brand}\n * Generated via Design Factory CLI\n */\n\n:root {\n  /* Colors */\n  --${brand}-primary: #0A0A0A;\n  --${brand}-secondary: #FAF9F6;\n  --${brand}-accent: #002FA7;\n\n  /* Typography */\n  --${brand}-font-display: 'Inter Tight', sans-serif;\n  --${brand}-font-body: 'Inter', sans-serif;\n}\n`;
-  fs.writeFileSync(path.join(dsDir, 'colors_and_type.css'), placeholderCss);
+  // 3. preview/_card.css (shared style)
+  const sharedCardCss = `/* Shared style for design-system preview cards */
+@import url('../colors_and_type.css');
 
-  log(colors.green, `[✓] Folders and base assets successfully created in: ${brand}-design-system`);
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--${brand}-font-body);
+  color: var(--${brand}-text);
+  background: var(--${brand}-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: border-box; }
+.card-frame {
+  width: 700px;
+  padding: 32px;
+  background: var(--${brand}-bg-subdued);
+  border: 1px solid var(--${brand}-border);
+  border-radius: var(--${brand}-radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 10px auto;
+}
+.label {
+  font: 500 11px/1 var(--${brand}-font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--${brand}-text-quiet);
+}
+.mono { font-family: var(--${brand}-font-mono); }
+`;
+  fs.writeFileSync(path.join(dsDir, 'preview', '_card.css'), sharedCardCss);
+
+  // 4. preview/colors-accents.html
+  const colorsHtml = `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="_card.css">
+  <style>
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .swatch {
+      padding: 20px;
+      border-radius: var(--${brand}-radius-md);
+      border: 1px solid var(--${brand}-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100px;
+    }
+    .swatch-title {
+      font-weight: 600;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-frame">
+    <div class="label">${brand.toUpperCase()} · ЦВЕТОВЫЕ ТОКЕНЫ И АКЦЕНТЫ</div>
+    <div class="grid">
+      <div class="swatch" style="background: var(--${brand}-primary); color: var(--${brand}-white);">
+        <span class="swatch-title">Primary</span>
+        <span class="mono" style="font-size: 11px;">#0A0A0A</span>
+      </div>
+      <div class="swatch" style="background: var(--${brand}-accent); color: var(--${brand}-white);">
+        <span class="swatch-title">Accent</span>
+        <span class="mono" style="font-size: 11px;">#002FA7</span>
+      </div>
+      <div class="swatch" style="background: var(--${brand}-cyan); color: var(--${brand}-primary);">
+        <span class="swatch-title">Cyan Accent</span>
+        <span class="mono" style="font-size: 11px;">#00F0FF</span>
+      </div>
+      <div class="swatch" style="background: var(--${brand}-yellow); color: var(--${brand}-primary);">
+        <span class="swatch-title">Yellow</span>
+        <span class="mono" style="font-size: 11px;">#FFD600</span>
+      </div>
+      <div class="swatch" style="background: var(--${brand}-bg); color: var(--${brand}-text);">
+        <span class="swatch-title">Background</span>
+        <span class="mono" style="font-size: 11px;">#090E17</span>
+      </div>
+      <div class="swatch" style="background: var(--${brand}-bg-subdued); color: var(--${brand}-text);">
+        <span class="swatch-title">BG Subdued</span>
+        <span class="mono" style="font-size: 11px;">#121824</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(dsDir, 'preview', 'colors-accents.html'), colorsHtml);
+
+  // 5. preview/type-display.html
+  const typeHtml = `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="_card.css">
+  <style>
+    .type-row {
+      border-bottom: 1px solid var(--${brand}-border-quiet);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+    .type-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-frame">
+    <div class="label">${brand.toUpperCase()} · ТИПОГРАФИКА И ШРИФТЫ</div>
+    
+    <div class="type-row">
+      <div class="label" style="margin-bottom: 4px;">Display XXL (300 weight)</div>
+      <div class="${brand}-display-xxl">Next-gen digital factory</div>
+    </div>
+
+    <div class="type-row">
+      <div class="label" style="margin-bottom: 4px;">Heading H1</div>
+      <div class="${brand}-h1">High-fidelity typography</div>
+    </div>
+
+    <div class="type-row">
+      <div class="label" style="margin-bottom: 4px;">Heading H2</div>
+      <div class="${brand}-h2">Carefully paired Google Fonts</div>
+    </div>
+
+    <div class="type-row">
+      <div class="label" style="margin-bottom: 4px;">Body Text</div>
+      <div class="${brand}-body">Design systems provide consistent visual rhythm and scale. They allow AI agents to craft premium interfaces with extreme predictability.</div>
+    </div>
+  </div>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(dsDir, 'preview', 'type-display.html'), typeHtml);
+
+  // 6. preview/spacing.html
+  const spacingHtml = `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="_card.css">
+  <style>
+    .bar-container { display: flex; flex-direction: column; gap: 12px; }
+    .space-bar {
+      background: var(--${brand}-cyan);
+      height: 24px;
+      border-radius: var(--${brand}-radius-xs);
+      display: flex;
+      align-items: center;
+      padding-left: 12px;
+      color: var(--${brand}-primary);
+      font-weight: bold;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card-frame">
+    <div class="label">${brand.toUpperCase()} · СЕТКА И ОТСТУПЫ (SPACING)</div>
+    <div class="bar-container">
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Space 4 (16px)</div>
+        <div class="space-bar" style="width: 64px;">16px</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Space 6 (24px)</div>
+        <div class="space-bar" style="width: 96px;">24px</div>
+      </div>
+      <div>
+        <div class="label" style="margin-bottom: 4px;">Space 8 (32px)</div>
+        <div class="space-bar" style="width: 128px;">32px</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(dsDir, 'preview', 'spacing.html'), spacingHtml);
+
+  // 7. ui_kits/landing/styles.css
+  const uiKitCss = `/* UI Kit — Landing Layout Styles
+   Tokens are imported from ../../colors_and_type.css */
+
+.layout {
+  min-height: 100vh;
+  background: var(--${brand}-bg);
+  color: var(--${brand}-text);
+  font-family: var(--${brand}-font-body);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 1px solid var(--${brand}-border);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(9, 14, 23, 0.85);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  color: var(--${brand}-text-subdued);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color var(--${brand}-duration);
+}
+
+.nav-link:hover {
+  color: var(--${brand}-text);
+}
+
+.hero {
+  padding: 80px 40px;
+  max-width: var(--${brand}-content-max);
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.hero h1 {
+  max-width: 800px;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--${brand}-text-subdued);
+  max-width: 600px;
+  margin: 0;
+}
+
+.btn {
+  background: var(--${brand}-cyan);
+  color: var(--${brand}-primary);
+  border: none;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: var(--${brand}-radius-sm);
+  cursor: pointer;
+  box-shadow: var(--${brand}-shadow-glow);
+  transition: opacity var(--${brand}-duration), transform var(--${brand}-duration);
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: var(--${brand}-content-max);
+  margin: 40px auto;
+  padding: 0 40px;
+}
+
+.feature-card {
+  background: var(--${brand}-bg-subdued);
+  border: 1px solid var(--${brand}-border);
+  padding: 24px;
+  border-radius: var(--${brand}-radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--${brand}-text-subdued);
+  font-size: 14px;
+  line-height: 1.5;
+}
+`;
+  fs.writeFileSync(path.join(dsDir, 'ui_kits', 'landing', 'styles.css'), uiKitCss);
+
+  // 8. ui_kits/landing/index.html (React inlined to prevent CORS issues on file://)
+  const uiKitHtml = `<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>${brand.toUpperCase()} — UI Kit Landing</title>
+  <link rel="stylesheet" href="../../colors_and_type.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const DATA = {
+      brandName: "${brandName}",
+      hero: {
+        title: "Будущее веб-интерфейсов уже наступило",
+        subtitle: "Динамические дизайн-системы, спроектированные для экономии токенов и высокой точности ИИ.",
+        cta: "Начать бесплатно"
+      },
+      features: [
+        { title: "Точность ИИ", body: "Полная интеграция с правилами IDE позволяет агентам мгновенно понимать вашу систему." },
+        { title: "Экономия токенов", body: "Сжатие веб-контекста до 98% снижает затраты на разработку и повышает скорость работы." },
+        { title: "Чистый CSS", body: "Никакого оверхеда и сборщиков. Чистые семантические классы и HSL переменные." }
+      ]
+    };
+
+    function Navbar({ brandName }) {
+      return (
+        <header className="navbar">
+          <div style={{fontWeight: 700, fontSize: 20, letterSpacing: '0.05em'}}>{brandName}</div>
+          <nav className="nav-links">
+            <a href="#" className="nav-link">Документация</a>
+            <a href="#" className="nav-link">Компоненты</a>
+            <a href="#" className="nav-link">Слайды</a>
+          </nav>
+          <button className="btn" style={{padding: '8px 16px', fontSize: 13}}>Вход</button>
+        </header>
+      );
+    }
+
+    function Hero({ data }) {
+      return (
+        <section className="hero">
+          <div className="${brand}-caption" style={{marginBottom: 8}}>Платформа следующего поколения</div>
+          <h1 className="${brand}-display-xxl">{data.title}</h1>
+          <p style={{marginTop: 12, marginBottom: 16}}>{data.subtitle}</p>
+          <button className="btn">{data.cta}</button>
+        </section>
+      );
+    }
+
+    function Features({ items }) {
+      return (
+        <section className="features-grid">
+          {items.map((item, idx) => (
+            <div key={idx} className="feature-card">
+              <div className="label" style={{color: 'var(--${brand}-cyan)'}}>0{idx+1} · МОДУЛЬ</div>
+              <h3 className="${brand}-h2" style={{marginTop: 4}}>{item.title}</h3>
+              <p>{item.body}</p>
+            </div>
+          ))}
+        </section>
+      );
+    }
+
+    function App() {
+      return (
+        <div className="layout">
+          <Navbar brandName={DATA.brandName} />
+          <Hero data={DATA.hero} />
+          <Features items={DATA.features} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(dsDir, 'ui_kits', 'landing', 'index.html'), uiKitHtml);
+
+  // 9. ui_kits/landing/README.md
+  const uiKitReadme = `# ${brandName} — Landing UI kit
+
+Hi-fi static recreation of the landing page. Powered by React + Babel CDN.
+
+## Components included
+- **Navbar** — brand header with navigation links
+- **Hero** — premium display title with accent CTA and hover glow effects
+- **Features** — responsive bento cards with accent module numbers
+`;
+  fs.writeFileSync(path.join(dsDir, 'ui_kits', 'landing', 'README.md'), uiKitReadme);
+
+  // 10. design-system-viewer.html (with INLINED CARDS array for 100% file:// compatibility)
+  const viewerHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${brandName} — Design System</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px 60px;
+      background: #090E17;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #F8FAFC;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+    }
+    .header-meta {
+      color: #94A3B8;
+      font-size: 13px;
+      margin-bottom: 32px;
+    }
+    .group-label {
+      font-size: 12px;
+      color: #64748B;
+      margin: 28px 0 10px 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .card {
+      background: #121824;
+      border: 1px solid #1E293B;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .card:hover { 
+      border-color: #334155;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .card-header {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+    }
+    .card-chevron {
+      width: 12px; height: 12px;
+      transition: transform 0.15s;
+      flex-shrink: 0;
+      opacity: 0.7;
+      stroke: #94A3B8;
+    }
+    .card.open .card-chevron { transform: rotate(90deg); }
+    .card-title {
+      font-weight: 600;
+      font-size: 14px;
+      color: #ffffff;
+    }
+    .card-subtitle {
+      font-size: 13px;
+      color: #94A3B8;
+      margin-left: 8px;
+    }
+    .card-body {
+      display: none;
+      border-top: 1px solid #1E293B;
+      background: #090E17;
+      padding: 16px;
+    }
+    .card.open .card-body { display: block; }
+    iframe {
+      width: 100%;
+      border: 1px solid #1E293B;
+      border-radius: 6px;
+      background: #090E17;
+      display: block;
+    }
+    footer {
+      margin-top: 48px;
+      color: #64748B;
+      font-size: 12px;
+      text-align: center;
+    }
+    code {
+      background: #1E293B;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #00F0FF;
+    }
+  </style>
+</head>
+<body>
+  <h1>${brandName} — Design System</h1>
+  <div class="header-meta">
+    <span id="card-count" style="color: #00F0FF; font-weight: bold;">0</span> cards loaded · open card files directly from <code>preview/</code> or <code>ui_kits/</code> to edit.
+  </div>
+  <div id="root"></div>
+  <footer>Generated by Design Factory CLI. Interactive offline viewer via <code>file://</code>.</footer>
+
+  <script>
+    // INLINED from cards.json to bypass Chrome file:// CORS policy
+    const CARDS = ${JSON.stringify(cards, null, 2)};
+
+    const GROUP_ORDER = ['Type', 'Colors', 'Spacing', 'Components', 'Brand', 'UI Kits', 'Slides'];
+
+    function render() {
+      document.getElementById('card-count').textContent = CARDS.length;
+
+      const grouped = {};
+      CARDS.forEach(c => {
+        if (!grouped[c.group]) grouped[c.group] = [];
+        grouped[c.group].push(c);
+      });
+
+      const root = document.getElementById('root');
+      GROUP_ORDER.forEach(g => {
+        if (!grouped[g] || grouped[g].length === 0) return;
+
+        const label = document.createElement('div');
+        label.className = 'group-label';
+        label.textContent = g;
+        root.appendChild(label);
+
+        grouped[g].forEach(card => {
+          const el = document.createElement('div');
+          el.className = 'card';
+          el.innerHTML = \`
+            <div class="card-header" onclick="toggleCard(this)">
+              <svg class="card-chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 2 L8 6 L4 10"/></svg>
+              <span class="card-title">\${card.title}</span>
+              <span class="card-subtitle">\${card.subtitle}</span>
+            </div>
+            <div class="card-body">
+              <iframe loading="lazy" src="\${card.file}" width="\${card.viewport.width}" height="\${card.viewport.height}"></iframe>
+            </div>
+          \`;
+          root.appendChild(el);
+        });
+      });
+    }
+
+    function toggleCard(header) {
+      header.parentElement.classList.toggle('open');
+    }
+
+    render();
+  </script>
+</body>
+</html>`;
+  fs.writeFileSync(path.join(dsDir, 'design-system-viewer.html'), viewerHtml);
+
+  // 11. README.md (brand root)
+  const readmeContent = `# ${brandName} — Design System
+
+High-fidelity reconstructed design system for the ${brand} brand.
+
+> *Aesthetic: Premium, high-contrast Dark-first interface. Sharp cyan accents with deep slate neutral fills and spacious bento grid structure.*
+
+---
+
+## Index
+
+| File / folder | Purpose |
+|---|---|
+| \`README.md\` | This file |
+| \`SKILL.md\` | Agent Skill manifest |
+| \`colors_and_type.css\` | All tokens + semantic classes |
+| \`cards.json\` | Preview card manifest |
+| \`design-system-viewer.html\` | Offline browser for all cards |
+| \`preview/\` | Spec cards (Type / Colors / Spacing) |
+| \`ui_kits/\` | High-fidelity product recreations |
+| \`assets/\` | Logos, imagery, custom assets |
+| \`fonts/\` | Self-hosted brand fonts (if any) |
+
+---
+
+## Visual Foundations
+
+### Palette
+
+| Role | Token | Value |
+|---|---|---|
+| Primary accent | \`--${brand}-accent\` | \`#002FA7\` |
+| Cyan Accent | \`--${brand}-cyan\` | \`#00F0FF\` |
+| Background | \`--${brand}-bg\` | \`#090E17\` |
+| Surface fill | \`--${brand}-bg-subdued\` | \`#121824\` |
+| Border | \`--${brand}-border\` | \`#1E293B\` |
+| Primary text | \`--${brand}-text\` | \`#F8FAFC\` |
+
+### Typography
+
+- **Display** — 'Plus Jakarta Sans', system-ui, sans-serif
+- **Body** — 'Plus Jakarta Sans', system-ui, sans-serif
+- **Mono** — 'JetBrains Mono', monospace
+
+---
+
+## How to View
+
+Open \`design-system-viewer.html\` directly in your web browser (via double-click or \`file://\` protocol) to explore the interactive specs offline.
+`;
+  fs.writeFileSync(path.join(dsDir, 'README.md'), readmeContent);
+
+  // 12. SKILL.md (brand root for agent usage)
+  const skillContent = `---
+name: ${brand}-design
+description: Use this skill to generate well-branded interfaces and assets for ${brandName}, either for production or prototypes/mocks/etc. Contains essential design guidelines, colors, type, fonts, assets, and UI kit components.
+user-invocable: true
+---
+
+Read the README.md file within this skill, and explore the other available files.
+
+If creating visual artifacts (slides, mocks, prototypes, etc), copy assets out and create static HTML files for the user to view. If working on production code, you can copy assets and read the rules here to become an expert in designing with this brand.
+
+## Hard rules for ${brandName}-style design
+- Headings at weight **300** with **-0.02em tracking** on display text.
+- Primary accent color is always **\`var(--${brand}-cyan)\`** or **\`var(--${brand}-accent)\`**.
+- Use pure dark background **\`var(--${brand}-bg)\`** for maximum premium feel.
+- Sentences case everywhere for titles — never Title Case.
+- Cards must use \`1px var(--${brand}-border) border + var(--${brand}-shadow-card) shadow\`.
+`;
+  fs.writeFileSync(path.join(dsDir, 'SKILL.md'), skillContent);
+
+  log(colors.green, `[✓] Folders, templates, and interactive CORS-free viewer successfully created in: ${brand}-design-system`);
   log(colors.green, '\n[!] Run "./df compile" inside the project to generate IDE helper rules!');
 }
 
