@@ -26,20 +26,27 @@ Designed to fight generic, cookie-cutter artificial intelligence aesthetics (Ant
 design-factory/
 ├── README.md                     # This file: Universal English roadmap & documentation
 ├── install.sh                    # Intelligent automated Mac installer script
-├── df                            # Executable Node.js CLI tool
+├── install.ps1                   # Intelligent automated Windows PowerShell installer
+├── df                            # Executable Node.js CLI tool (macOS/Linux)
+├── df.cmd                        # Windows Command Prompt execution wrapper
+├── df.ps1                        # Windows PowerShell execution wrapper
 ├── mcp-server.js                 # Model Context Protocol (MCP) Server
 ├── .gitignore                    # Local sandbox folder isolator
 │
-├── skills/                       # Specialized AI Custom Skills
+├── skills/                       # The actual active AI Custom Skills (COMMITTED)
 │   ├── extract-brand-assets/     # Step 1: Parallel website asset scraper
 │   ├── create-design-system/     # Step 2: Claude Design token compiler
 │   └── render-brand-pdf/         # Step 3: Headless PDF & slide deck renderer
 │
+├── examples/                     # Pre-packaged samples for local testing (COMMITTED)
+│   ├── stripe-design-system/     # Example pre-compiled design system folder
+│   └── mock-slides.md            # Sample markdown slides to test rendering
+│
 ├── console/                      # Design Factory Web Console (Local Web App)
-│   ├── server.js                 # Node.js/Express backend server
+│   ├── server.js                 # Pure Node.js backend HTTP server
 │   └── public/                   # Sleek Dark Mode glassmorphic web dashboard
 │
-└── raw/                          # Archived original materials (Ignored in Git)
+└── raw/                          # Local temporary staging/backup folder (GITIGNORED)
 ```
 
 ---

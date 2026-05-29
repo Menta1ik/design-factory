@@ -1,0 +1,18 @@
+{
+  "brandName": "Stripe",
+  "generatedAt": "2026-05-29T12:00:00.000Z",
+  "cards": [
+    {
+      "name": "colors-primary.html",
+      "title": "Colors · Primary & Accent",
+      "subtitle": "Core Stripe indigo, dark slate, and cyan tones.",
+      "group": "Colors"
+    },
+    {
+      "name": "type-display.html",
+      "title": "Type · Space Grotesk Display",
+      "subtitle": "Distinctive display font scale used for bold headings.",
+      "group": "Type"
+    }
+  ]
+}

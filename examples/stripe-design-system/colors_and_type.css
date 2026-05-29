@@ -1,0 +1,67 @@
+/**
+ * Design Factory · Examples Library
+ * Brand Design Tokens: Stripe (Mock Reference)
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  /* 1. Base Brand Colors */
+  --stripe-indigo: #635bff;
+  --stripe-dark: #0a2540;
+  --stripe-cyan: #00d4ff;
+  --stripe-purple: #c4f9ff;
+  --stripe-bg-light: #f6f9fc;
+  --stripe-border: #e6ebf1;
+
+  /* 2. Semantic Surfaces */
+  --stripe-primary: var(--stripe-dark);
+  --stripe-secondary: var(--stripe-bg-light);
+  --stripe-accent: var(--stripe-indigo);
+  --stripe-card-bg: #ffffff;
+
+  /* 3. Spacing and Radii */
+  --stripe-radius-sm: 4px;
+  --stripe-radius-md: 8px;
+  --stripe-radius-lg: 16px;
+  --stripe-spacing-unit: 8px;
+
+  /* 4. Typography Scale */
+  --stripe-font-display: 'Space Grotesk', sans-serif;
+  --stripe-font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Base Typography Semantics */
+.stripe-h1 {
+  font-family: var(--stripe-font-display);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1.1;
+  color: var(--stripe-dark);
+  letter-spacing: -1px;
+}
+
+.stripe-body {
+  font-family: var(--stripe-font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #4f5b66;
+}
+
+.stripe-btn {
+  font-family: var(--stripe-font-body);
+  font-weight: 600;
+  background-color: var(--stripe-indigo);
+  color: #ffffff;
+  border-radius: var(--stripe-radius-md);
+  padding: 12px 24px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+
+.stripe-btn:hover {
+  background-color: #5345ec;
+  transform: translateY(-1px);
+}

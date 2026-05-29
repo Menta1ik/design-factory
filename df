@@ -39,6 +39,7 @@ function showHelp() {
   console.log('Usage: ./df <command> [args]\n');
   console.log('Commands:');
   console.log('  install            Install all design pipeline tools and register skills globally.');
+  console.log('  check              Check system dependencies and diagnostics (Doctor).');
   console.log('  extract <URL>      Extract raw design tokens and assets from a brand website.');
   console.log('  make-ds <brand>    Initialize a new design system structure locally.');
   console.log('  compile            Compile rules files (.cursorrules, .clinerules, instructions.md).');
@@ -338,6 +339,56 @@ function handleInstall() {
   console.log(`Skills folder: ${skillsDest}`);
 }
 
+// COMMAND: check (Doctor)
+function handleCheck() {
+  printHeader();
+  log(colors.blue, '[*] Running system diagnostics & dependencies check...\n');
+
+  const dependencies = [
+    { name: 'node', desc: 'Node.js Runtime (>=20.0.0)', cmd: 'node -v', optional: false, installMac: 'brew install node', installWin: 'winget install OpenJS.NodeJS' },
+    { name: 'git', desc: 'Git Version Control', cmd: 'git --version', optional: false, installMac: 'xcode-select --install', installWin: 'winget install Git.Git' },
+    { name: 'monolith', desc: 'Monolith (Offline saver)', cmd: 'monolith --version', optional: false, installMac: 'brew install monolith', installWin: 'winget install Y2Z.Monolith' },
+    { name: 'wget', desc: 'GNU Wget (Scraper)', cmd: 'wget --version', optional: false, installMac: 'brew install wget', installWin: 'winget install JernejSimoncic.Wget' },
+    { name: 'claude', desc: 'Claude Code CLI Agent', cmd: 'claude --version', optional: true, installMac: 'npm install -g @anthropic-ai/claude-code', installWin: 'npm install -g @anthropic-ai/claude-code' }
+  ];
+
+  let errors = 0;
+
+  // Manual column padding helper to avoid printf/util dependency
+  const pad = (str, len) => str.padEnd(len).slice(0, len);
+
+  console.log(`${colors.bright}${pad('TOOL', 12)} ${pad('DESCRIPTION', 28)} ${pad('STATUS', 10)} VERSION / ADVICE${colors.reset}`);
+  console.log('--------------------------------------------------------------------------------');
+
+  dependencies.forEach(dep => {
+    let status = `${colors.green}[✓] OK${colors.reset}`;
+    let version = '';
+    
+    try {
+      version = execSync(dep.cmd, { encoding: 'utf8', stdio: 'pipe' }).trim().split('\n')[0];
+    } catch (err) {
+      if (dep.optional) {
+        status = `${colors.yellow}[!] WARN${colors.reset}`;
+        version = `Not installed (optional).`;
+      } else {
+        status = `${colors.red}[✗] FAIL${colors.reset}`;
+        version = `Missing! Install: ${process.platform === 'win32' ? dep.installWin : dep.installMac}`;
+        errors++;
+      }
+    }
+    
+    console.log(`${pad(dep.name, 12)} ${pad(dep.desc, 28)} ${pad(status, 20)} ${version}`);
+  });
+
+  console.log('--------------------------------------------------------------------------------');
+  
+  if (errors > 0) {
+    log(colors.red, `\n[✗] Diagnostics finished with ${errors} critical errors! Please run "./df install" or install manually.`);
+  } else {
+    log(colors.green, '\n[✓] All dependencies are satisfied! Design Factory is fully operational.');
+  }
+}
+
 // Main router
 const args = process.argv.slice(2);
 const command = args[0];
@@ -350,6 +401,9 @@ if (!command) {
 switch (command.toLowerCase()) {
   case 'install':
     handleInstall();
+    break;
+  case 'check':
+    handleCheck();
     break;
   case 'extract':
     handleExtract(args[1]);
