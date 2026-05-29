@@ -389,39 +389,169 @@ function handleCheck() {
   }
 }
 
+
+function startWizard() {
+  printHeader();
+  log(colors.bright + colors.green, '👋 Добро пожаловать в пошаговый мастер Design Factory!');
+  console.log('Этот интерактивный помощник настроит ваше окружение и поможет запустить пайплайн.');
+  console.log('--------------------------------------------------------------------------------\n');
+
+  // Шаг 1: Быстрая диагностика ядра системы
+  const dependencies = [
+    { name: 'node', cmd: 'node -v' },
+    { name: 'git', cmd: 'git --version' },
+    { name: 'monolith', cmd: 'monolith --version' },
+    { name: 'wget', cmd: 'wget --version' }
+  ];
+  
+  let missingDeps = [];
+  dependencies.forEach(dep => {
+    try {
+      execSync(dep.cmd, { stdio: 'pipe' });
+    } catch (e) {
+      missingDeps.push(dep.name);
+    }
+  });
+
+  if (missingDeps.length > 0) {
+    log(colors.yellow, `[!] Обнаружены отсутствующие системные компоненты: ${missingDeps.join(', ')}`);
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    rl.question(`\nХотите автоматически установить недостающие утилиты и настроить окружение? (Y/n): `, (answer) => {
+      const choice = answer.trim().toLowerCase();
+      rl.close();
+      if (choice === '' || choice === 'y' || choice === 'yes') {
+        handleInstall();
+        showMainMenu();
+      } else {
+        log(colors.yellow, '[!] Автоматическая установка пропущена.');
+        showMainMenu();
+      }
+    });
+  } else {
+    log(colors.green, '[✓] Отлично! Все ключевые системные зависимости уже установлены и готовы к работе.');
+    showMainMenu();
+  }
+}
+
+function showMainMenu() {
+  console.log(`\n${colors.bright}${colors.cyan}--- ГЛАВНОЕ МЕНЮ DESIGN FACTORY ---${colors.reset}\n`);
+  console.log('Выберите действие, введя соответствующую цифру:\n');
+  console.log(`  ${colors.bright}1)${colors.reset} ${colors.green}[Диагностика]${colors.reset} Проверить готовность системы (Doctor)`);
+  console.log(`  ${colors.bright}2)${colors.reset} ${colors.green}[Установка]${colors.reset} Принудительно обновить утилиты и зарегистрировать ИИ-навыки`);
+  console.log(`  ${colors.bright}3)${colors.reset} ${colors.green}[Веб-панель]${colors.reset} Запустить локальную веб-консоль управления`);
+  console.log(`  ${colors.bright}4)${colors.reset} ${colors.green}[Парсинг сайта]${colors.reset} Собрать сырые дизайн-токены и ресурсы с сайта бренда (Extract)`);
+  console.log(`  ${colors.bright}5)${colors.reset} ${colors.green}[Создать ДС]${colors.reset} Создать структуру новой дизайн-системы для бренда`);
+  console.log(`  ${colors.bright}6)${colors.reset} ${colors.green}[Правила IDE]${colors.reset} Скомпилировать правила для ИИ-агентов (.cursorrules и др.)`);
+  console.log(`  ${colors.bright}7)${colors.reset} Выйти`);
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  rl.question(`\nВыберите пункт (1-7): `, (answer) => {
+    rl.close();
+    const choice = answer.trim();
+    switch (choice) {
+      case '1':
+        handleCheck();
+        showMainMenu();
+        break;
+      case '2':
+        handleInstall();
+        showMainMenu();
+        break;
+      case '3':
+        handleConsole();
+        break;
+      case '4':
+        const rlExtract = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+        });
+        rlExtract.question(`\nВведите URL сайта бренда (например, https://stripe.com): `, (url) => {
+          rlExtract.close();
+          const targetUrl = url.trim();
+          if (targetUrl) {
+            handleExtract(targetUrl);
+          } else {
+            log(colors.red, '[✗] URL не может быть пустым.');
+          }
+          showMainMenu();
+        });
+        break;
+      case '5':
+        const rlDS = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout
+        });
+        rlDS.question(`\nВведите слаг бренда (например, stripe): `, (slug) => {
+          rlDS.close();
+          const brandSlug = slug.trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
+          if (brandSlug) {
+            handleMakeDs(brandSlug);
+          } else {
+            log(colors.red, '[✗] Слаг бренда не может быть пустым.');
+          }
+          showMainMenu();
+        });
+        break;
+      case '6':
+        handleCompile();
+        showMainMenu();
+        break;
+      case '7':
+      case 'exit':
+        log(colors.cyan, '\nСпасибо за использование Design Factory! До свидания 👋');
+        process.exit(0);
+        break;
+      default:
+        log(colors.red, '\n[✗] Неверный выбор. Пожалуйста, введите цифру от 1 до 7.');
+        showMainMenu();
+        break;
+    }
+  });
+}
+
 // Main router
 const args = process.argv.slice(2);
 const command = args[0];
 
 if (!command) {
-  showHelp();
-  process.exit(0);
+  startWizard();
+} else {
+  switch (command.toLowerCase()) {
+    case 'wizard':
+      startWizard();
+      break;
+    case 'install':
+      handleInstall();
+      break;
+    case 'check':
+      handleCheck();
+      break;
+    case 'extract':
+      handleExtract(args[1]);
+      break;
+    case 'make-ds':
+      handleMakeDs(args[1]);
+      break;
+    case 'compile':
+      handleCompile();
+      break;
+    case 'console':
+      handleConsole();
+      break;
+    case 'version':
+      console.log(`v${VERSION}`);
+      break;
+    case 'help':
+    default:
+      showHelp();
+      break;
+  }
 }
 
-switch (command.toLowerCase()) {
-  case 'install':
-    handleInstall();
-    break;
-  case 'check':
-    handleCheck();
-    break;
-  case 'extract':
-    handleExtract(args[1]);
-    break;
-  case 'make-ds':
-    handleMakeDs(args[1]);
-    break;
-  case 'compile':
-    handleCompile();
-    break;
-  case 'console':
-    handleConsole();
-    break;
-  case 'version':
-    console.log(`v${VERSION}`);
-    break;
-  case 'help':
-  default:
-    showHelp();
-    break;
-}
