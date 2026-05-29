@@ -1,13 +1,8 @@
 # 🏗️ Design Factory — Universal AI Design Engine
 
-```text
-    ____           _                ______           __                  
-   / __ \___  ____(_)___ _____     / ____/___ ______/ /_____  _______  __
-  / / / / _ \/ ___/ / __ `/ __ \   / /_  / __ `/ ___/ __/ __ \/ ___/ / / /
- / /_/ /  __(__  ) / /_/ / / / /  / __/ / /_/ / /__/ /_/ /_/ / /  / /_/ / 
-/_____/\___/____/_/\__, /_/ /_/  /_/    \__,_/\___/\__/\____/_/   \__, /  
-                  /____/                                         /____/   
-```
+<p align="center">
+  <img src="logo.svg" alt="Design Factory Terminal Logo" width="100%">
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-5e6ad2?style=flat-square" alt="Version">
