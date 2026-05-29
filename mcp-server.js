@@ -15,6 +15,14 @@ const repoRoot = __dirname;
 // Active tools metadata matching standard MCP schemas
 const TOOLS = [
   {
+    name: 'install_pipeline',
+    description: 'Natively install all Design Factory dependencies (monolith, wget, node, claude-code) and register AI skills globally on the user\'s local machine.',
+    inputSchema: {
+      type: 'object',
+      properties: {}
+    }
+  },
+  {
     name: 'extract_brand_assets',
     description: 'Extract raw design tokens, style sheets, offline archives, and brand assets from a given brand website URL using monolith, wget, and designlang.',
     inputSchema: {
@@ -167,6 +175,16 @@ function handleMessage(line) {
 // Implement actual tool operations inside the MCP runtime
 function handleToolCall(id, toolName, args) {
   try {
+    if (toolName === 'install_pipeline') {
+      const dfPath = path.join(repoRoot, 'df');
+      const output = execSync(`node "${dfPath}" install`, { encoding: 'utf8', cwd: repoRoot });
+      
+      sendResponse(id, {
+        content: [{ type: 'text', text: output }]
+      });
+      return;
+    }
+
     if (toolName === 'extract_brand_assets') {
       const url = args.url;
       if (!url) {

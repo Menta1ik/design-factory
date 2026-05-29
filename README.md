@@ -93,20 +93,30 @@ Every tool and agent in this repository is strictly bound to fight generic AI de
 
 ## 📦 Installation & Setup
 
-Design Factory provides automated cross-platform scripts to install all prerequisites and register AI skills globally.
+Design Factory provides automated cross-platform scripts and agent tools to install all prerequisites and register AI skills globally.
 
-### For macOS / Linux (Terminal)
+### 1. Universal Setup via CLI (Recommended)
+Runs natively on any OS (macOS, Windows, Linux). Simply run:
 ```bash
-chmod +x install.sh
-./install.sh
+node df install
 ```
 
-### For Windows (PowerShell)
-Run this command inside your repository root folder:
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force
-.\install.ps1
-```
+### 2. Autonomous Setup via AI Agent (MCP)
+If your AI assistant (in Cursor, Windsurf, or Roo Cline) is connected to the Design Factory MCP server, you can simply instruct it in the chat:
+> *"Please install and configure the Design Factory pipeline on my machine."*
+The agent will call the `install_pipeline` tool and configure your system autonomously.
+
+### 3. Native Shell Installers (Fallbacks)
+- **macOS / Linux (Terminal):**
+  ```bash
+  chmod +x install.sh
+  ./install.sh
+  ```
+- **Windows (PowerShell):**
+  ```powershell
+  Set-ExecutionPolicy Bypass -Scope Process -Force
+  .\install.ps1
+  ```
 
 ---
 

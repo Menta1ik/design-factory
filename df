@@ -38,6 +38,7 @@ function showHelp() {
   printHeader();
   console.log('Usage: ./df <command> [args]\n');
   console.log('Commands:');
+  console.log('  install            Install all design pipeline tools and register skills globally.');
   console.log('  extract <URL>      Extract raw design tokens and assets from a brand website.');
   console.log('  make-ds <brand>    Initialize a new design system structure locally.');
   console.log('  compile            Compile rules files (.cursorrules, .clinerules, instructions.md).');
@@ -249,6 +250,94 @@ function handleConsole() {
   });
 }
 
+// COMMAND: install
+function handleInstall() {
+  printHeader();
+  const platform = process.platform;
+  log(colors.blue, `[*] Starting cross-platform environment setup on: ${platform}`);
+
+  const userHome = process.env.HOME || process.env.USERPROFILE;
+  const skillsDest = path.join(userHome, '.claude', 'skills');
+  const workspaceDir = path.join(userHome, 'Design System');
+
+  // Create skills and workspace folders
+  fs.mkdirSync(skillsDest, { recursive: true });
+  fs.mkdirSync(workspaceDir, { recursive: true });
+  log(colors.green, `[✓] Prepared global directories under: ${userHome}`);
+
+  // Register skills by copying from repo
+  const repoSkillsDir = path.join(repoRoot, 'skills');
+  if (fs.existsSync(repoSkillsDir)) {
+    const copyRecursiveSync = (src, dest) => {
+      const exists = fs.existsSync(src);
+      const stats = exists && fs.statSync(src);
+      const isDirectory = exists && stats.isDirectory();
+      if (isDirectory) {
+        fs.mkdirSync(dest, { recursive: true });
+        fs.readdirSync(src).forEach((childItemName) => {
+          copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+        });
+      } else {
+        fs.copyFileSync(src, dest);
+      }
+    };
+
+    try {
+      // Remove old copies if any to ensure fresh registration
+      const rmdir = (dir) => {
+        if (fs.existsSync(dir)) {
+          fs.rmSync(dir, { recursive: true, force: true });
+        }
+      };
+      rmdir(path.join(skillsDest, 'extract-brand-assets'));
+      rmdir(path.join(skillsDest, 'create-design-system'));
+      rmdir(path.join(skillsDest, 'render-brand-pdf'));
+
+      copyRecursiveSync(path.join(repoSkillsDir, 'extract-brand-assets'), path.join(skillsDest, 'extract-brand-assets'));
+      copyRecursiveSync(path.join(repoSkillsDir, 'create-design-system'), path.join(skillsDest, 'create-design-system'));
+      copyRecursiveSync(path.join(repoSkillsDir, 'render-brand-pdf'), path.join(skillsDest, 'render-brand-pdf'));
+      log(colors.green, `[✓] Registered AI skills globally in: ${skillsDest}`);
+    } catch (err) {
+      log(colors.red, `[✗] Error copying skills: ${err.message}`);
+    }
+  }
+
+  // OS Specific dependencies
+  if (platform === 'darwin') {
+    log(colors.blue, '[*] Installing brew dependencies (monolith, wget)...');
+    try {
+      execSync('brew install monolith wget', { stdio: 'inherit' });
+      log(colors.green, '[✓] Homebrew dependencies successfully configured.');
+    } catch (err) {
+      log(colors.yellow, '[!] Brew error, please make sure Homebrew is installed.');
+    }
+  } else if (platform === 'win32') {
+    log(colors.blue, '[*] Installing winget dependencies (monolith, wget)...');
+    try {
+      execSync('winget install --id JernejSimoncic.Wget -e --silent --accept-package-agreements --accept-source-agreements', { stdio: 'inherit' });
+      execSync('winget install --id Y2Z.Monolith -e --silent --accept-package-agreements --accept-source-agreements', { stdio: 'inherit' });
+      log(colors.green, '[✓] Windows dependencies successfully configured.');
+    } catch (err) {
+      log(colors.yellow, '[!] Winget error, please make sure you have winget package manager.');
+    }
+  }
+
+  // Install Claude Code CLI
+  log(colors.blue, '[*] Installing Claude Code CLI globally...');
+  try {
+    execSync('npm install -g @anthropic-ai/claude-code', { stdio: 'inherit' });
+    log(colors.green, '[✓] Claude Code successfully installed globally.');
+  } catch (err) {
+    log(colors.yellow, '[!] npm install warning. If it is a permission issue, run with local prefix.');
+  }
+
+  log(colors.bright + colors.green, '\n===============================================');
+  log(colors.bright + colors.green, '✓ ENVIRONMENT SETUP SUCCESSFULLY COMPLETED!');
+  log(colors.bright + colors.green, '===============================================');
+  console.log(`\nWorkspace: ${workspaceDir}`);
+  console.log(`Skills folder: ${skillsDest}`);
+}
+
 // Main router
 const args = process.argv.slice(2);
 const command = args[0];
@@ -259,6 +348,9 @@ if (!command) {
 }
 
 switch (command.toLowerCase()) {
+  case 'install':
+    handleInstall();
+    break;
   case 'extract':
     handleExtract(args[1]);
     break;
