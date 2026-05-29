@@ -10,10 +10,6 @@
 ```
 
 <p align="center">
-  <img src="banner.png" alt="Design Factory Banner" width="100%">
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/version-1.0.0-5e6ad2?style=flat-square" alt="Version">
   <img src="https://img.shields.io/badge/context%20optimizer-%3E99.98%25-green?style=flat-square" alt="Context Optimizer">
   <img src="https://img.shields.io/badge/vibe--coding-active-ff69b4?style=flat-square&logo=visual-studio-code" alt="Vibe Coding">
