@@ -146,6 +146,13 @@ To maintain ultimate pipeline efficiency, the `df` CLI provides native telemetri
     For interactive human terminal sessions, `df` displays a smooth, single-line progress indicator (`[██████░░░░] 60% | Step 3/4: Mirroring...`) which updates on the same line to keep your terminal output clean.
 *   **Token Telemetry Calculator:**
     Upon completing an extraction, `df` automatically calculates and displays a detailed economic telemetry table showing raw data volume, compressed token count, exact compression ratio, and the estimated number of saved input tokens.
+*   **3-Step Pipeline Wizard:**
+    Running the master wizard (by typing `./df` or `node df` with no arguments) and choosing the **Extract** option initiates a fully automated, interactive 3-step pipeline:
+    1.  **Step 1 (Extract & Scrape):** Prompts for the brand URL and asks if you want to enable **Silent Mode** to save AI tokens. It downloads all assets locally with a beautiful single-line progress indicator and displays token efficiency telemetry on completion.
+    2.  **Step 2 (Initialize Design System):** Automatically calculates the brand slug and asks if you want to initialize the design system bundle (e.g. `eny-design-system`).
+    3.  **Step 3 (Compile Rules):** Asks if you want to instantly compile the IDE helper rules (`.cursorrules`, `.clinerules`, `instructions.md`) to make the new design system natively discoverable by your AI agent.
+    
+    *With a single URL and 3 clicks of the `Enter` key, you get a fully structured, token-optimized design system workspace ready for vibe-coding.*
 
 ---
 
