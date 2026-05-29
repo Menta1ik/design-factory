@@ -74,7 +74,7 @@ function handleExtract(url) {
   log(colors.cyan, `[*] Brand Slug resolved: ${slug}`);
 
   // Create folders
-  const outputDir = path.join(repoRoot, 'source-raw', slug);
+  const outputDir = path.join(process.cwd(), 'source-raw', slug);
   const monolithDir = path.join(outputDir, 'monolith');
   const mirrorDir = path.join(outputDir, 'mirror');
   const designlangDir = path.join(outputDir, 'designlang');
@@ -147,7 +147,7 @@ function handleMakeDs(brand) {
   }
 
   printHeader();
-  const dsDir = path.join(repoRoot, `${brand}-design-system`);
+  const dsDir = path.join(process.cwd(), `${brand}-design-system`);
   log(colors.blue, `[*] Initializing Design System folder: ${brand}-design-system`);
 
   fs.mkdirSync(dsDir, { recursive: true });
@@ -212,19 +212,19 @@ Always use these tools instead of manually parsing or editing:
 `;
 
   // Write .cursorrules
-  fs.writeFileSync(path.join(repoRoot, '.cursorrules'), rulesContent);
+  fs.writeFileSync(path.join(process.cwd(), '.cursorrules'), rulesContent);
   log(colors.green, '[✓] .cursorrules written successfully.');
 
   // Write .clinerules
-  fs.writeFileSync(path.join(repoRoot, '.clinerules'), rulesContent);
+  fs.writeFileSync(path.join(process.cwd(), '.clinerules'), rulesContent);
   log(colors.green, '[✓] .clinerules written successfully.');
 
   // Write .windsurfrules
-  fs.writeFileSync(path.join(repoRoot, '.windsurfrules'), rulesContent);
+  fs.writeFileSync(path.join(process.cwd(), '.windsurfrules'), rulesContent);
   log(colors.green, '[✓] .windsurfrules written successfully.');
 
   // Write instructions.md (standard markdown for OpenAI Codex / Continue)
-  fs.writeFileSync(path.join(repoRoot, 'instructions.md'), rulesContent);
+  fs.writeFileSync(path.join(process.cwd(), 'instructions.md'), rulesContent);
   log(colors.green, '[✓] instructions.md written successfully.');
 
   log(colors.bright + colors.green, '\n[✓] ALL IDE RULES SUCCESSFULLY COMPILED!');
