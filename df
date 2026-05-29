@@ -47,7 +47,6 @@ function printHeader() {
 
 // Interactive Console Progress Bar (one-liner)
 function drawProgressBar(step, total, message) {
-  if (isSilent) return;
   const percentage = Math.round((step / total) * 100);
   const barWidth = 20;
   const filledWidth = Math.round((step / total) * barWidth);
