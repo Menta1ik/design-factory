@@ -1,5 +1,7 @@
 # Design Factory Monorepo Git Ignore
 
+# Original Raw Assets (Preserved locally, ignored in Git)
+/raw/
 
 # Design Pipeline Temporary Raw Scrapes
 /source-raw/
