@@ -15,7 +15,7 @@ const VERSION = '1.0.0';
 
 // Global argument preprocessing for Silent Mode
 const rawArgs = process.argv.slice(2);
-const isSilent = rawArgs.includes('--silent') || rawArgs.includes('-s');
+let isSilent = rawArgs.includes('--silent') || rawArgs.includes('-s');
 
 // Colors for terminal output
 const colors = {
@@ -541,22 +541,78 @@ function showMainMenu() {
         handleInstall();
         showMainMenu();
         break;
-      case '3':
+      case '3': {
         const rlExtract = readline.createInterface({
           input: process.stdin,
           output: process.stdout
         });
         rlExtract.question(`\nВведите URL сайта бренда (например, https://stripe.com): `, (url) => {
-          rlExtract.close();
           const targetUrl = url.trim();
-          if (targetUrl) {
-            handleExtract(targetUrl);
-          } else {
+          if (!targetUrl) {
             log(colors.red, '[✗] URL не может быть пустым.');
+            rlExtract.close();
+            showMainMenu();
+            return;
           }
-          showMainMenu();
+          
+          rlExtract.question(`Включить тихий режим (Silent Mode) для экономии ИИ-токенов? (Y/n): `, (silentAns) => {
+            const useSilent = silentAns.trim().toLowerCase() !== 'n';
+            rlExtract.close();
+            
+            const oldSilent = isSilent;
+            if (useSilent) {
+              isSilent = true;
+            }
+            
+            try {
+              handleExtract(targetUrl);
+            } catch (err) {
+              log(colors.red, `[✗] Произошла ошибка во время извлечения: ${err.message}`);
+            }
+            
+            isSilent = oldSilent;
+            
+            const slug = targetUrl
+              .replace(/^https?:\/\//i, '')
+              .replace(/^www\./i, '')
+              .split('/')[0]
+              .replace(/\.[a-z]{2,}$/i, '')
+              .toLowerCase()
+              .replace(/[^a-z0-9]/g, '-');
+              
+            const rlNext = readline.createInterface({
+              input: process.stdin,
+              output: process.stdout
+            });
+            
+            rlNext.question(`\n[▶] Шаг 2/3: Инициализировать папку дизайн-системы ${colors.bright}${slug}-design-system${colors.reset}? (Y/n): `, (dsAns) => {
+              if (dsAns.trim().toLowerCase() !== 'n') {
+                try {
+                  handleMakeDs(slug);
+                } catch (err) {
+                  log(colors.red, `[✗] Ошибка создания дизайн-системы: ${err.message}`);
+                }
+                
+                rlNext.question(`\n[▶] Шаг 3/3: Скомпилировать правила IDE (.cursorrules, .clinerules, instructions.md)? (Y/n): `, (rulesAns) => {
+                  rlNext.close();
+                  if (rulesAns.trim().toLowerCase() !== 'n') {
+                    try {
+                      handleCompile();
+                    } catch (err) {
+                      log(colors.red, `[✗] Ошибка компиляции правил: ${err.message}`);
+                    }
+                  }
+                  showMainMenu();
+                });
+              } else {
+                rlNext.close();
+                showMainMenu();
+              }
+            });
+          });
         });
         break;
+      }
       case '4':
         const rlDS = readline.createInterface({
           input: process.stdin,
