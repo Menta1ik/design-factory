@@ -1,0 +1,39 @@
+{
+  "name": "design-factory",
+  "version": "1.0.0",
+  "description": "Universal AI Design & Rendering Engine compatible with Google Antigravity, Claude Code, OpenAI Codex, Cursor, and Windsurf.",
+  "main": "mcp-server.js",
+  "bin": {
+    "df": "./df"
+  },
+  "scripts": {
+    "df": "node df",
+    "console": "node console/server.js",
+    "compile": "node df compile",
+    "mcp": "node mcp-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Menta1ik/design-factory.git"
+  },
+  "keywords": [
+    "ai",
+    "design",
+    "tokens",
+    "mcp",
+    "claude-code",
+    "openai-codex",
+    "cursor",
+    "rendering",
+    "pdf"
+  ],
+  "author": "Menta1ik",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Menta1ik/design-factory/issues"
+  },
+  "homepage": "https://github.com/Menta1ik/design-factory#readme",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
