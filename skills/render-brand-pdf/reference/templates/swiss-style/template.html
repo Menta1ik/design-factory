@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Swiss International · Brand Presentation Template</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --swiss-blue: #002FA7; /* International Klein Blue */
+    --swiss-red: #E60000;  /* Signal Swiss Red */
+    --swiss-paper: #FAF9F6; /* Warm Paper */
+    --swiss-dark: #0A0A0A;  /* Deep Matte Black */
+  }
+  
+  body { 
+    font-family: 'Inter Tight', 'Inter', system-ui, sans-serif; 
+    background: var(--swiss-dark); 
+    color: var(--swiss-paper); 
+    margin: 0; 
+  }
+  
+  .slide { 
+    width: 100%; 
+    aspect-ratio: 16/9; 
+    max-width: 1920px; 
+    margin: 0 auto; 
+    position: relative; 
+    overflow: hidden; 
+    box-sizing: border-box;
+  }
+  
+  .slide-ikb { 
+    background: var(--swiss-blue); 
+    color: var(--swiss-paper); 
+  }
+  
+  .slide-paper { 
+    background: var(--swiss-paper); 
+    color: var(--swiss-dark); 
+  }
+  
+  .slide-red {
+    background: var(--swiss-red);
+    color: var(--swiss-paper);
+  }
+  
+  .mono { 
+    font-family: 'JetBrains Mono', ui-monospace, monospace; 
+  }
+  
+  .hairline-b { 
+    border-bottom: 1px solid currentColor; 
+  }
+  
+  .hairline-t { 
+    border-top: 1px solid currentColor; 
+  }
+  
+  /* Technical ASCII dot grid */
+  .ascii-dots { 
+    font-family: 'JetBrains Mono', monospace; 
+    font-size: 11px; 
+    line-height: 1; 
+    letter-spacing: 6px; 
+    opacity: 0.15; 
+  }
+  
+  .bar-chart-pillar { 
+    width: 60px; 
+    background: var(--swiss-blue); 
+  }
+  
+  .slide-paper .bar-chart-pillar {
+    background: var(--swiss-blue);
+  }
+  
+  .deck { 
+    display: grid; 
+    gap: 40px; 
+    padding: 40px; 
+  }
+  
+  /* Print styling to split slides into separate A4/16:9 pages */
+  @media print {
+    body { background: white; }
+    .deck { gap: 0; padding: 0; }
+    .slide { page-break-after: always; max-width: 100%; width: 100vw; height: 56.25vw; }
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- ==================== SLIDE 01: COVER (FULL IKB BLUE) ==================== -->
+  <section class="slide slide-ikb">
+    <div class="absolute inset-0 p-16 flex flex-col justify-between">
+      <!-- Technical Top Header -->
+      <header class="flex items-baseline justify-between mono text-[12px] uppercase tracking-[0.2em] opacity-80 hairline-b pb-4">
+        <span>BRAND RECONSTRUCTION — AUTOMATION PIPELINE</span>
+        <span>SLIDE 01 / 10</span>
+        <span>2026.05.29</span>
+      </header>
+      
+      <!-- Decorative Tech Grid -->
+      <pre class="absolute top-32 right-16 ascii-dots select-none">
+▒▓█▓▒░░▒▓█▓▒
+▒▒▓█▓▒░░▒▓█▓▒
+░▒▓█▓▒░░▒▓█▓▒
+░░▒▓█▓▒░░▒▓█▓
+▒░░▒▓█▓▒░░▒▓
+▒▒░░▒▓█▓▒░░▒
+      </pre>
+      
+      <!-- Main Content -->
+      <div>
+        <div class="mono text-[14px] uppercase tracking-[0.22em] text-red-500 font-bold">№01 · CORE CONCEPT</div>
+        <h1 class="mt-4 font-black leading-[0.95] tracking-[-0.03em] uppercase" style="font-size: clamp(48px, 6.5vw, 110px);">
+          DESIGNING<br/>INTELLIGENCE<br/>ON WARM PAPER.
+        </h1>
+        <p class="mt-8 max-w-[700px] text-[18px] opacity-90 leading-relaxed font-light">
+          75 high-fidelity HTML templates. 17 localized agent environments. 100% automated visual quality validation and zero API latency.
+        </p>
+      </div>
+      
+      <!-- Technical Bottom Footer -->
+      <footer class="flex items-baseline justify-between mono text-[12px] uppercase tracking-[0.2em] opacity-80 hairline-t pt-4">
+        <span>DESIGN-FACTORY.STUDIO</span>
+        <span>ZURICH · 47.3769° N · 8.5417° E</span>
+        <span>VOL. 2026.A</span>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 02: METRICS GRID (WARM PAPER BG) ==================== -->
+  <section class="slide slide-paper">
+    <div class="absolute inset-0 p-16 flex flex-col justify-between">
+      <!-- Technical Top Header -->
+      <header class="flex items-baseline justify-between mono text-[12px] uppercase tracking-[0.2em] hairline-b pb-4">
+        <span>METRICS ANALYSIS — GROWTH RATE</span>
+        <span>SLIDE 02 / 10</span>
+        <span>FY 2026</span>
+      </header>
+      
+      <!-- Main Content -->
+      <div>
+        <div class="mono text-[14px] uppercase tracking-[0.22em]" style="color: var(--swiss-blue)">№02 · KEY PERFORMANCE</div>
+        <h2 class="mt-4 font-black leading-[1.0] tracking-[-0.03em] uppercase" style="font-size: clamp(36px, 4.5vw, 72px)">
+          Four pillars of structural quality —<br/>
+          building the <span style="color: var(--swiss-blue)">most trusted</span> HTML layout engine.
+        </h2>
+      </div>
+      
+      <!-- Data Pillars Grid -->
+      <div class="grid grid-cols-4 gap-12 items-end mt-4 mb-4">
+        <div class="text-center">
+          <div class="mb-4 mx-auto h-8">
+            <svg viewBox="0 0 24 24" class="w-8 h-8 mx-auto" fill="#002FA7"><rect x="4" y="4" width="4" height="16"/><rect x="10" y="8" width="4" height="12"/><rect x="16" y="2" width="4" height="18"/></svg>
+          </div>
+          <div class="bar-chart-pillar mx-auto" style="height: 80px;"></div>
+          <div class="mt-4 mono text-[36px] font-black" style="color: var(--swiss-blue)">75+</div>
+          <div class="hairline-t mt-2 pt-2 text-[11px] uppercase tracking-[0.18em] opacity-70">ACTIVE TEMPLATES</div>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 mx-auto h-8">
+            <svg viewBox="0 0 24 24" class="w-8 h-8 mx-auto" fill="#002FA7"><circle cx="12" cy="12" r="9" fill="none" stroke="#002FA7" stroke-width="2"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="bar-chart-pillar mx-auto" style="height: 150px;"></div>
+          <div class="mt-4 mono text-[36px] font-black" style="color: var(--swiss-blue)">200</div>
+          <div class="hairline-t mt-2 pt-2 text-[11px] uppercase tracking-[0.18em] opacity-70">TARGET COMPLIANCE</div>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 mx-auto h-8">
+            <svg viewBox="0 0 24 24" class="w-8 h-8 mx-auto" fill="#002FA7"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>
+          </div>
+          <div class="bar-chart-pillar mx-auto" style="height: 200px;"></div>
+          <div class="mt-4 mono text-[36px] font-black" style="color: var(--swiss-blue)">25K</div>
+          <div class="hairline-t mt-2 pt-2 text-[11px] uppercase tracking-[0.18em] opacity-70">REACH RATE</div>
+        </div>
+        <div class="text-center">
+          <div class="mb-4 mx-auto h-8">
+            <svg viewBox="0 0 24 24" class="w-8 h-8 mx-auto" fill="#002FA7"><path d="M5 3l10 9-10 9z"/></svg>
+          </div>
+          <div class="bar-chart-pillar mx-auto" style="height: 250px;"></div>
+          <div class="mt-4 mono text-[36px] font-black" style="color: var(--swiss-blue)">80K+</div>
+          <div class="hairline-t mt-2 pt-2 text-[11px] uppercase tracking-[0.18em] opacity-70">WEEKLY VISITORS</div>
+        </div>
+      </div>
+      
+      <!-- Technical Bottom Footer -->
+      <footer class="flex items-baseline justify-between mono text-[12px] uppercase tracking-[0.2em] opacity-80 hairline-t pt-4">
+        <span>DATA SOURCE: INTERNAL AUDIT / Q2</span>
+        <span>DESIGN-FACTORY.STUDIO</span>
+        <span>SLIDE 02 / 10</span>
+      </footer>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

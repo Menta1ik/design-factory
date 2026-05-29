@@ -1,0 +1,27 @@
+# Design Factory Monorepo Git Ignore
+
+# Original Raw Assets (Preserved locally, ignored in Git)
+/raw/
+
+# Design Pipeline Temporary Raw Scrapes
+/source-raw/
+/Design\ System/
+/Design System/
+
+# Generated Design System Bundles
+/*-design-system/
+
+# Rendered PDF Outputs and logs
+/*.pdf
+/*.log
+/tmp/
+/*.pid
+
+# Package managers and local environment
+node_modules/
+.npm-global/
+.claude/
+.vaunt/
+.antigravitycli/
+.DS_Store
+Thumbs.db
