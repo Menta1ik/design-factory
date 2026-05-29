@@ -35,9 +35,14 @@ function log(color, msg) {
 
 function printHeader() {
   if (isSilent) return;
-  console.log(`\n${colors.bright}${colors.cyan}===============================================`);
-  console.log(`   DESIGN FACTORY CLI (df) · v${VERSION}   `);
-  console.log(`===============================================${colors.reset}\n`);
+  console.log(`\n${colors.cyan}${colors.bright}    ____           _                ______           __                  `);
+  console.log(`   / __ \\___  ____(_)___ _____     / ____/___ ______/ /_____  _______  __`);
+  console.log(`  / / / / _ \\/ ___/ / __ \`/ __ \\   / /_  / __ \`/ ___/ __/ __ \\/ ___/ / / /`);
+  console.log(` / /_/ /  __(__  ) / /_/ / / / /  / __/ / /_/ / /__/ /_/ /_/ / /  / /_/ / `);
+  console.log(`/_____/\\___/____/_/\\__, /_/ /_/  /_/    \\__,_/\\___/\\__/\\____/_/   \\__, /  `);
+  console.log(`                  /____/                                         /____/   `);
+  console.log(`\n       ${colors.yellow}DESIGN FACTORY CLI · v${VERSION} · ${colors.green}AI Context & Token Optimizer${colors.cyan}`);
+  console.log(`================================================================================${colors.reset}\n`);
 }
 
 // Interactive Console Progress Bar (one-liner)
