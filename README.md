@@ -1,5 +1,25 @@
 # 🏗️ Design Factory — Universal AI Design Engine
 
+<p align="center">
+  <img src="banner.png" alt="Design Factory Banner" width="100%">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/version-1.0.0-5e6ad2?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/context%20optimizer-%3E99.98%25-green?style=flat-square" alt="Context Optimizer">
+  <img src="https://img.shields.io/badge/vibe--coding-active-ff69b4?style=flat-square&logo=visual-studio-code" alt="Vibe Coding">
+  <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Windows%20%7C%20Linux-5e6ad2?style=flat-square" alt="Platform">
+  <img src="https://img.shields.io/github/license/Menta1ik/design-factory?style=flat-square&color=5e6ad2" alt="License">
+</p>
+<p align="center">
+  <a href="http://meowroom.top" target="_blank">
+    <img src="https://img.shields.io/badge/kharkiv%20cats-meowroom.top-yellow?style=flat-square&logo=heart" alt="Kharkiv Cats">
+  </a>
+  <a href="http://meowroom.top" target="_blank">
+    <img src="https://img.shields.io/badge/donate-PayPal-blue?style=flat-square&logo=paypal" alt="Donate PayPal">
+  </a>
+</p>
+
 A multi-agent, cross-platform mono-repository that orchestrates a complete, high-fidelity AI design pipeline: **Scraping -> Tokenization -> Visual Rendering**. Compatible with **Google Antigravity**, **Claude Code**, **OpenAI Codex**, **Cursor**, **Windsurf**, and **VS Code (Roo Cline)**.
 
 Designed to fight generic, cookie-cutter artificial intelligence aesthetics (Anti-AI-Slop) and produce world-class design systems, branded offline viewers, presentation decks, and selectable vector PDF reports directly on your local machine.
