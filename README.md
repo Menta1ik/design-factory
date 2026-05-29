@@ -67,10 +67,6 @@ design-factory/
 ├── examples/                     # Pre-packaged samples for local testing (COMMITTED)
 │   ├── stripe-design-system/     # Example pre-compiled design system folder
 │   └── mock-slides.md            # Sample markdown slides to test rendering
-│
-├── console/                      # Design Factory Web Console (Local Web App)
-│   ├── server.js                 # Pure Node.js backend HTTP server
-│   └── public/                   # Sleek Dark Mode glassmorphic web dashboard
 
 ```
 
@@ -197,13 +193,7 @@ Generate rules files for Cursor, Windsurf, Roo Cline, and Codex:
 - On macOS/Linux: `./df make-ds stripe`
 - On Windows: `node df make-ds stripe`
 
-### 4. Launch the Web Console
-- On macOS/Linux: `./df console`
-- On Windows: `node df console`
 
-Open `http://localhost:8080` in your web browser to browse the visual dashboard, edit colors with a color picker, write markdown content with a live preview, and download custom slide decks in one click.
-
----
 
 ## 👤 About the Author
 

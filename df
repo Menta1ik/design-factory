@@ -72,7 +72,6 @@ function showHelp() {
   console.log('  extract <URL>      Extract raw design tokens and assets from a brand website.');
   console.log('  make-ds <brand>    Initialize a new design system structure locally.');
   console.log('  compile            Compile rules files (.cursorrules, .clinerules, instructions.md).');
-  console.log('  console            Launch the local Web Console (Design Factory Console).');
   console.log('  version            Print the current version.');
   console.log('  help               Show this help message.\n');
 }
@@ -329,26 +328,6 @@ Always use these tools instead of manually parsing or editing:
   console.log('\nAI agents in Cursor, Windsurf, Roo Cline, and OpenAI Codex will now automatically detect your design principles.');
 }
 
-// COMMAND: console
-function handleConsole() {
-  printHeader();
-  log(colors.blue, '[*] Starting Design Factory Console local server...');
-  
-  const serverPath = path.join(repoRoot, 'console', 'server.js');
-  if (!fs.existsSync(serverPath)) {
-    log(colors.red, `Error: Web console server script not found at ${serverPath}.`);
-    console.log('Please make sure you have fully completed Phase 4 of the roadmap.');
-    process.exit(1);
-  }
-
-  // Start the server in the background and pipe output
-  const serverProcess = spawn('node', [serverPath], { cwd: repoRoot, stdio: 'inherit' });
-  
-  serverProcess.on('error', (err) => {
-    log(colors.red, `Failed to launch console: ${err.message}`);
-  });
-}
-
 // COMMAND: install
 function handleInstall() {
   printHeader();
@@ -540,18 +519,17 @@ function showMainMenu() {
   console.log('Выберите действие, введя соответствующую цифру:\n');
   console.log(`  ${colors.bright}1)${colors.reset} ${colors.green}[Диагностика]${colors.reset} Проверить готовность системы (Doctor)`);
   console.log(`  ${colors.bright}2)${colors.reset} ${colors.green}[Установка]${colors.reset} Принудительно обновить утилиты и зарегистрировать ИИ-навыки`);
-  console.log(`  ${colors.bright}3)${colors.reset} ${colors.green}[Веб-панель]${colors.reset} Запустить локальную веб-консоль управления`);
-  console.log(`  ${colors.bright}4)${colors.reset} ${colors.green}[Парсинг сайта]${colors.reset} Собрать сырые дизайн-токены и ресурсы с сайта бренда (Extract)`);
-  console.log(`  ${colors.bright}5)${colors.reset} ${colors.green}[Создать ДС]${colors.reset} Создать структуру новой дизайн-системы для бренда`);
-  console.log(`  ${colors.bright}6)${colors.reset} ${colors.green}[Правила IDE]${colors.reset} Скомпилировать правила для ИИ-агентов (.cursorrules и др.)`);
-  console.log(`  ${colors.bright}7)${colors.reset} Выйти`);
+  console.log(`  ${colors.bright}3)${colors.reset} ${colors.green}[Парсинг сайта]${colors.reset} Собрать сырые дизайн-токены и ресурсы с сайта бренда (Extract)`);
+  console.log(`  ${colors.bright}4)${colors.reset} ${colors.green}[Создать ДС]${colors.reset} Создать структуру новой дизайн-системы для бренда`);
+  console.log(`  ${colors.bright}5)${colors.reset} ${colors.green}[Правила IDE]${colors.reset} Скомпилировать правила для ИИ-агентов (.cursorrules и др.)`);
+  console.log(`  ${colors.bright}6)${colors.reset} Выйти`);
 
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
 
-  rl.question(`\nВыберите пункт (1-7): `, (answer) => {
+  rl.question(`\nВыберите пункт (1-6): `, (answer) => {
     rl.close();
     const choice = answer.trim();
     switch (choice) {
@@ -564,9 +542,6 @@ function showMainMenu() {
         showMainMenu();
         break;
       case '3':
-        handleConsole();
-        break;
-      case '4':
         const rlExtract = readline.createInterface({
           input: process.stdin,
           output: process.stdout
@@ -582,7 +557,7 @@ function showMainMenu() {
           showMainMenu();
         });
         break;
-      case '5':
+      case '4':
         const rlDS = readline.createInterface({
           input: process.stdin,
           output: process.stdout
@@ -598,17 +573,17 @@ function showMainMenu() {
           showMainMenu();
         });
         break;
-      case '6':
+      case '5':
         handleCompile();
         showMainMenu();
         break;
-      case '7':
+      case '6':
       case 'exit':
         log(colors.cyan, '\nСпасибо за использование Design Factory! До свидания 👋');
         process.exit(0);
         break;
       default:
-        log(colors.red, '\n[✗] Неверный выбор. Пожалуйста, введите цифру от 1 до 7.');
+        log(colors.red, '\n[✗] Неверный выбор. Пожалуйста, введите цифру от 1 до 6.');
         showMainMenu();
         break;
     }
@@ -640,9 +615,6 @@ if (!command) {
       break;
     case 'compile':
       handleCompile();
-      break;
-    case 'console':
-      handleConsole();
       break;
     case 'version':
       console.log(`v${VERSION}`);
